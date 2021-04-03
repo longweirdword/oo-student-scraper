@@ -5,9 +5,10 @@ require 'pry'
 class Scraper
 
   def self.scrape_index_page(index_url)
-    url = URI.parse(index_url)
-    response = Net::HTTP.get(url)
-    noko = Nokogiri::HTML(response)
+    noko = Nokogiri::HTML(open(index_url))
+    #url = URI.parse(index_url)
+    #response = Net::HTTP.get(url)
+    #noko = Nokogiri::HTML(response)
 
     students = noko.css(".student-card").map do |student|
       Hash[:name, student.css(".student-name").text, :location, student.css(".student-location").text, :profile_url, student.css("a").first.attributes["href"].value]
